@@ -15,3 +15,15 @@ def MAE(dataset,predicted):
     for i in range(len(dataset)):
         total= total + abs(dataset[i][1] - predicted[i][1])
     return total * 1/len(dataset)
+def Huber(dataset,predicted,thresholdValue):
+    assert len(dataset) == len(predicted)
+    assert type(dataset) == "list"
+    assert type(predicted) == "list"
+    assert type(thresholdValue) == "float"
+    total=0
+    for i in range(len(dataset)):
+        if abs(dataset[i][1] - predicted[i][1]) <= thresholdValue:
+            total=total+ (1/2*((dataset[i][1] - predicted[i][1])**2))
+        else:
+            total=total + (thresholdValue * abs(dataset[i][1] - predicted[i][1]) - ((1/2)*(thresholdValue**2)))
+    return total * 1/len(dataset)
