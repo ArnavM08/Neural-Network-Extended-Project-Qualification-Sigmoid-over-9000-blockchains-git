@@ -1,3 +1,4 @@
+import numpy as numpy
 #dataset an array of coordinates, so [(0,2),(3,5)] predicted follows a similar format, but takes x coordinate from dataset and uses model to find predicted y val
 #LOSS FUNCTIONS
 def MSE(dataset,predicted):
@@ -28,5 +29,23 @@ def Huber(dataset,predicted,thresholdValue):
         else:
             total=total + (thresholdValue * abs(dataset[i][1] - predicted[i][1]) - ((1/2)*(thresholdValue**2)))
     return total * 1/len(dataset)
-
+#before constructing activation functions, need to have a node to operate on, and for that i may as well just create the whole network data structure
+#idea is that a doubly linked list works well for my needs, with a global array of parameters that are used for the transforms from one node to the rest
+#for the meantime, ill handle this in the main
 #ACTIVATION FUNCTIONS
+#kinda implied i use non-linear activation functions
+"""
+def sigmoid(weightedValue):
+    assert type(weightedValue) == "float"
+    return 1/(1+(numpy.e**weightedValue))
+def tanh(weightedValue):
+    assert type(weightedValue) == "float"
+    return ((numpy.e**weightedValue) - (numpy.e**(-weightedValue)))/((numpy.e**weightedValue)+(numpy.e**(-weightedValue)))
+#this is somehow not a linear function
+def RELU(weightedValue):
+    assert type(weightedValue) == "float"
+    return max(weightedValue,0)
+def leakyRELU(weightedValue):
+    assert type(weightedValue) == "float"
+    return max(0.1*weightedValue,weightedValue)
+"""
