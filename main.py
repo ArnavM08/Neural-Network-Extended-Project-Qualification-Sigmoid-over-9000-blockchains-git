@@ -34,7 +34,7 @@ def Huber(dataset,predicted,thresholdValue):
 #for the meantime, ill handle this in the main
 #ACTIVATION FUNCTIONS
 #kinda implied i use non-linear activation functions
-"""
+
 def sigmoid(weightedValue):
     assert type(weightedValue) == "float"
     return 1/(1+(numpy.e**weightedValue))
@@ -48,4 +48,29 @@ def RELU(weightedValue):
 def leakyRELU(weightedValue):
     assert type(weightedValue) == "float"
     return max(0.1*weightedValue,weightedValue)
-"""
+def paramRELU(weightedValue,constant):
+    assert type(weightedValue) == "float"
+    assert type(constant) == "float"
+    return max((constant*weightedValue),weightedValue)
+def ELU(weightedValue,constant):
+    assert type(weightedValue) == "float"
+    assert type(constant) == "float"
+    if weightedValue < 0:
+        return (constant*((numpy.e**weightedValue) - 1))
+    elif weightedValue >= 0:
+        return weightedValue
+def swish(weightedValue):
+    assert type(weightedValue) == "float"
+    return weightedValue/(1+(numpy.e**(-weightedValue)))
+def GELU(weightedValue):
+    assert type(weightedValue) == "float"
+    #arnavs gonna start frothing at the mouth
+    return 0.5*weightedValue(1+ (((numpy.e**((numpy.sqrt((2/numpy.pi))*weightedValue * 0.044715*(weightedValue ** 3)))-numpy.e**(numpy.sqrt((2/numpy.pi))*weightedValue * 0.044715*(weightedValue ** 3)))/(numpy.e**(numpy.sqrt((2/numpy.pi))*weightedValue * 0.044715*(weightedValue ** 3))+numpy.e**(numpy.sqrt((2/numpy.pi))*weightedValue * 0.044715*(weightedValue ** 3))))))
+def SELU(weightedValue,constant1,constant2):
+    assert type(weightedValue) == "float"
+    assert type(constant1) == "float"
+    assert type(constant2) == "float"
+    if weightedValue < 0: 
+        return constant2 * (constant1*((numpy.e** weightedValue)-1))
+    else:
+        return constant2 * weightedValue
