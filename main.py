@@ -64,7 +64,7 @@ def swish(weightedValue):
     return weightedValue/(1+(numpy.e**(-weightedValue)))
 def GELU(weightedValue):
     assert type(weightedValue) == "float"
-    #arnavs gonna start frothing at the mouth
+    #arnavs gonna start frothing at the mouth (i did not)
     return 0.5*weightedValue(1+ (((numpy.e**((numpy.sqrt((2/numpy.pi))*weightedValue * 0.044715*(weightedValue ** 3)))-numpy.e**(numpy.sqrt((2/numpy.pi))*weightedValue * 0.044715*(weightedValue ** 3)))/(numpy.e**(numpy.sqrt((2/numpy.pi))*weightedValue * 0.044715*(weightedValue ** 3))+numpy.e**(numpy.sqrt((2/numpy.pi))*weightedValue * 0.044715*(weightedValue ** 3))))))
 def SELU(weightedValue,constant1,constant2):
     assert type(weightedValue) == "float"
