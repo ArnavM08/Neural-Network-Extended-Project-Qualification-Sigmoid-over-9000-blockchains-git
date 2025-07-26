@@ -109,9 +109,6 @@ def approximationCubicFunctionMSE(observed):
     sigma1 = numpy.sqrt((1/m) * sum1)
     sigma2 = numpy.sqrt((1/m) * sum2)
     sigma3 = numpy.sqrt((1/m) * sum3)
-    print(sigma1)
-    print(sigma2)
-    print(sigma3)
     om1=[]
     om2=[]
     om3=[]
@@ -120,5 +117,4 @@ def approximationCubicFunctionMSE(observed):
         om1.append(((x)-mew1)/sigma1)
         om2.append(((x**2)-mew2)/sigma2)
         om3.append(((x**3)-mew3)/sigma3)
-    return om1,om2,om3
-print(approximationCubicFunctionMSE([[1,4],[2,4],[3,6]]))
+    
