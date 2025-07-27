@@ -78,20 +78,17 @@ def SELU(weightedValue,constant1,constant2):
 #let our approximation function be able to model up to a cubic graph. this means our function will look like f(x,a,b,c,d) = ax^3 + bx^2 + cx + d
 #given our partial derivatives for each variable excluding x, we can adjust and optimize each of our variables until our error functions either return a model with a feasibly low error value, or an exact match.
 #this will be a stochastic algorithm, meaning the order in which our variables are adjusted is completely random.  
-def approximationCubicFunctionMSE(observed):
+
+def approximationCubicFunctionMSE(observed,epoch):
     assert str(type(observed)) == "<class 'list'>"
-    a=0
-    b=0
-    c=0
-    d=0
     m=len(observed)
     #feature normalization
-    # x,x^2,x^3:1,2,3
+    # 1,x,x^2,x^3:0,1,2,3
     sum1=0
     sum2=0
     sum3=0
     for i in range(m):
-        x=int(observed[i][0])
+        x=float(observed[i][0])
         sum1 = sum1 + x
         sum2 = sum2 + x**2
         sum3 = sum3 + x**3
@@ -102,19 +99,60 @@ def approximationCubicFunctionMSE(observed):
     sum2=0
     sum3=0
     for i in range(m):
-        x=int(observed[i][0])
-        sum1 = sum1 + (x - mew1)**2 
-        sum2 = sum2 + (x - mew2)**2 
-        sum3 = sum3 + (x - mew3)**2 
-    sigma1 = numpy.sqrt((1/m) * sum1)
-    sigma2 = numpy.sqrt((1/m) * sum2)
-    sigma3 = numpy.sqrt((1/m) * sum3)
+        x=float(observed[i][0])
+        sum1 = sum1 + ((x - mew1)**2) 
+        sum2 = sum2 + (((x)**2 - mew2)**2) 
+        sum3 = sum3 + (((x)**3 - mew3)**2)
+    sigma1 = numpy.sqrt((1/(m-1)) * sum1)
+    sigma2 = numpy.sqrt((1/(m-1)) * sum2)
+    sigma3 = numpy.sqrt((1/(m-1)) * sum3)
     om1=[]
     om2=[]
     om3=[]
     for i in range(m):
-        x=int(observed[i][0])
+        x=float(observed[i][0])
         om1.append(((x)-mew1)/sigma1)
         om2.append(((x**2)-mew2)/sigma2)
         om3.append(((x**3)-mew3)/sigma3)
-    
+    count=1
+    a=0
+    b=0
+    c=0
+    d=0
+    sum1=0
+    sum2=0
+    sum3=0
+    sum4=0
+    #all good up to this mess
+    while epoch > count:
+        sum1=0
+        sum2=0
+        sum3=0
+        sum4=0   
+        alpha=0.01     
+        for i in range(m):
+            predicted = a*om3[i] + b*om2[i] + c*om1[i] + d
+            error=(predicted - observed[i][1])
+            sum1 = sum1 + error
+            sum2 = sum2 + error * om1[i]
+            sum3 = sum3 + error * om2[i]
+            sum4 = sum4 + error * om3[i]
+        PDd = 1/m * sum1
+        PDc = 1/m * sum2 
+        PDb = 1/m * sum3
+        PDa = 1/m * sum4
+        a=a-(alpha * PDa)
+        b=b-(alpha * PDb)
+        c=c-(alpha * PDc)
+        d=d-(alpha * PDd)
+        count=count+1
+    return [a,b,c,d,mew1,mew2,mew3,sigma1,sigma2,sigma3]
+array = [[-2,26],[0,2],[5,-23]]
+parameters=approximationCubicFunctionMSE(array,100)
+print("model returns f(x) = " ,str(parameters[0]) , "x^3 +" , str(parameters[1]) , "x^2 +", str(parameters[2]), "x +" , str(parameters[3]))
+sum=0
+for i in range(len(array)):
+    x = float(array[i][0])
+    increment = (parameters[0] * ((x**3 - parameters[6]) / parameters[9])) + (parameters[1] * ((x**2 - parameters[5])/parameters[8])) + (parameters[2] * ((x - parameters[4])/parameters[7])) + parameters[3]
+    sum = sum + abs(increment - array[i][1])
+print("the model was off by ",sum," units")
