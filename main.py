@@ -148,11 +148,14 @@ def approximationCubicFunctionMSE(observed,epoch):
         count=count+1
     return [a,b,c,d,mew1,mew2,mew3,sigma1,sigma2,sigma3]
 array = [[-2,26],[0,2],[5,-23]]
-parameters=approximationCubicFunctionMSE(array,100)
+parameters=approximationCubicFunctionMSE(array,10000)
 print("model returns f(x) = " ,str(parameters[0]) , "x^3 +" , str(parameters[1]) , "x^2 +", str(parameters[2]), "x +" , str(parameters[3]))
 sum=0
 for i in range(len(array)):
     x = float(array[i][0])
-    increment = (parameters[0] * ((x**3 - parameters[6]) / parameters[9])) + (parameters[1] * ((x**2 - parameters[5])/parameters[8])) + (parameters[2] * ((x - parameters[4])/parameters[7])) + parameters[3]
-    sum = sum + abs(increment - array[i][1])
+    normalizedX = (x - parameters[4])/parameters[7]
+    normalizedX2 = (x**2 - parameters[5])/parameters[8]
+    normalizedX3 = (x**3 - parameters[6])/parameters[9]
+    prediction = (parameters[0] * normalizedX3) + (parameters[1] * normalizedX2) + (parameters[2] * normalizedX) + parameters[3]
+    sum = sum + abs(prediction - array[i][1])
 print("the model was off by ",sum," units")
