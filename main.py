@@ -131,7 +131,7 @@ def approximationCubicFunctionMSE(observed,epoch):
         sum3=0
         sum4=0   
         sum5=0
-        alpha=0.01     
+        alpha=0.001     
         for i in range(m):
             predicted = a*om3[i] + b*om2[i] + c*om1[i] + d
             error=(predicted - observed[i][1])
@@ -157,7 +157,7 @@ def approximationCubicFunctionMSE(observed,epoch):
         sum6 = sum6 + abs(error)
     errorList.append(float(sum6))
     return [a,b,c,d,mew1,mew2,mew3,sigma1,sigma2,sigma3,errorList]
-array = [[0,1],[0.5,-4.875],[2.5,-43.375],[5,-69]]
+array = [[0,1],[0.5,2],[2.5,3],[5,60]]
 parameters=approximationCubicFunctionMSE(array,100000)
 errorList=parameters[10]
 print("model returns f(x) = " ,str(parameters[0]) , "x^3 +" , str(parameters[1]) , "x^2 +", str(parameters[2]), "x +" , str(parameters[3]))
