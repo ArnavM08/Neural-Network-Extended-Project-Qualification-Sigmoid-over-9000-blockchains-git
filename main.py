@@ -131,7 +131,7 @@ def approximationCubicFunctionMSE(observed,epoch):
         sum3=0
         sum4=0   
         sum5=0
-        alpha=0.001     
+        alpha=0.01     
         for i in range(m):
             predicted = a*om3[i] + b*om2[i] + c*om1[i] + d
             error=(predicted - observed[i][1])
