@@ -140,7 +140,7 @@ def approximationCubicFunctionMSE(observed,epoch):
             sum3 = sum3 + error * om2[i]
             sum4 = sum4 + error * om3[i]
             sum5= sum5 + abs(error)
-        errorList.append(str(sum5))
+        errorList.append(float(sum5))
         PDd = 1/m * sum1
         PDc = 1/m * sum2 
         PDb = 1/m * sum3
@@ -155,10 +155,11 @@ def approximationCubicFunctionMSE(observed,epoch):
         predicted = a*om3[i] + b*om2[i] + c*om1[i] + d
         error = (predicted - observed[i][1])        
         sum6 = sum6 + abs(error)
-    errorList.append(str(sum6))
+    errorList.append(float(sum6))
     return [a,b,c,d,mew1,mew2,mew3,sigma1,sigma2,sigma3,errorList]
 array = [[0,1],[0.5,-4.875],[2.5,-43.375],[5,-69]]
-parameters=approximationCubicFunctionMSE(array,2)
+parameters=approximationCubicFunctionMSE(array,100000)
+errorList=parameters[10]
 print("model returns f(x) = " ,str(parameters[0]) , "x^3 +" , str(parameters[1]) , "x^2 +", str(parameters[2]), "x +" , str(parameters[3]))
 sum=0
 for i in range(len(array)):
@@ -169,4 +170,7 @@ for i in range(len(array)):
     prediction = (parameters[0] * normalizedX3) + (parameters[1] * normalizedX2) + (parameters[2] * normalizedX) + parameters[3]
     sum = sum + abs(prediction - array[i][1])
 print("the model was off by ",sum," units")
-print(parameters[10][-1])
+plt.plot(errorList)
+plt.xlabel('Epochs')
+plt.ylabel('Error Value')
+plt.show()
