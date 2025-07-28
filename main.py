@@ -157,10 +157,10 @@ def approximationCubicFunctionMSE(observed,epoch):
         sum6 = sum6 + abs(error)
     errorList.append(float(sum6))
     return [a,b,c,d,mew1,mew2,mew3,sigma1,sigma2,sigma3,errorList]
-array = [[0,1],[0.5,2],[2.5,3],[5,60]]
-parameters=approximationCubicFunctionMSE(array,100000)
+array = [[0,1],[0.5,-4.875],[2.5,-43.375],[5,-69]]
+parameters=approximationCubicFunctionMSE(array,1000000)
 errorList=parameters[10]
-print("model returns f(x) = " ,str(parameters[0]) , "x^3 +" , str(parameters[1]) , "x^2 +", str(parameters[2]), "x +" , str(parameters[3]))
+print("model parameters for NORMALIZED features: f(x) = ",str(parameters[0]),"x_norm^3 + ",parameters[1],"x_norm^2 + ",parameters[2],"x_norm + ",parameters[3])
 sum=0
 for i in range(len(array)):
     x = float(array[i][0])
