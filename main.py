@@ -157,8 +157,8 @@ def approximationCubicFunctionMSE(observed,epoch):
         sum6 = sum6 + abs(error)
     errorList.append(float(sum6))
     return [a,b,c,d,mew1,mew2,mew3,sigma1,sigma2,sigma3,errorList]
-array = [[0,1],[0.5,-4.875],[2.5,-43.375],[5,-69]]
-parameters=approximationCubicFunctionMSE(array,1000000)
+array = [[71,53],[58,111],[114,25]]
+parameters=approximationCubicFunctionMSE(array,100000)
 errorList=parameters[10]
 print("model parameters for NORMALIZED features: f(x) = ",str(parameters[0]),"x_norm^3 + ",parameters[1],"x_norm^2 + ",parameters[2],"x_norm + ",parameters[3])
 sum=0
